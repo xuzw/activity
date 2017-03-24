@@ -1,7 +1,10 @@
 package com.github.xuzw.activity.api.svg;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.xuzw.activity.api.TimestampRange;
@@ -25,7 +28,7 @@ public class StaticSvg {
     /**
      * 气泡字体大小
      */
-    public static final int bubblingFontSize = 13;
+    public static final int bubblingFontSize = 16;
     /**
      * 符号高度
      */
@@ -37,7 +40,11 @@ public class StaticSvg {
     /**
      * 字体大小
      */
-    public static final int textFontSize = 14;
+    public static final int textFontSize = 20;
+    /**
+     * 下角标字体大小
+     */
+    public static final int subscriptTextFontSize = 10;
     /**
      * 行高
      */
@@ -135,19 +142,26 @@ public class StaticSvg {
         int symbolContainerWidth = (int) (widthPerMs * activity.getDur());
         int textOffsetX = symbolOffsetX + symbolWidth;
         int textOffsetY = symbolOffsetY + symbolHeight / 2;
+        int subscriptTextOffsetX = textOffsetX;
+        int subscriptTextOffsetY = symbolContainerOffsetY + symbolHeight - symbolHeight / 4;
         int sourceBubblingOffsetX = offset.getX();
         int targetBubblingOffsetX = offset.getX() + symbolContainerWidth - bubblingWidth;
         int bubblingOffsetY = offset.getY();
         int sourceBubblingTextOffsetX = sourceBubblingOffsetX + bubblingWidth / 2;
         int targetBubblingTextOffsetX = targetBubblingOffsetX + bubblingWidth / 2;
         int bubblingTextOffsetY = bubblingOffsetY + bubblingHeight / 2;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String subscriptText = String.format("耗时%s %s", new DurationFormat(activity.getDur()).getString(), dateFormat.format(activity.getTimestamp()));
+        String sourceBubblingText = activity.getSources().isEmpty() ? "unknow" : activity.getSources().get(0);
+        String targetBubblingText = StringUtils.isBlank(activity.getTarget()) ? "unknow" : activity.getTarget();
         builder.child("use").attr("xlink:href", "#bubbling").attr("fill", bubblingColor.toString()).attr("x", String.valueOf(sourceBubblingOffsetX)).attr("y", String.valueOf(bubblingOffsetY)).attr("width", String.valueOf(bubblingWidth)).attr("height", String.valueOf(bubblingHeight));
-        builder.child("text").attr("x", String.valueOf(sourceBubblingTextOffsetX)).attr("y", String.valueOf(bubblingTextOffsetY)).attr("text-anchor", "middle").attr("font-size", String.valueOf(bubblingFontSize)).attr("fill", bubblingTextColor.toString()).text("source");
+        builder.child("text").attr("x", String.valueOf(sourceBubblingTextOffsetX)).attr("y", String.valueOf(bubblingTextOffsetY)).attr("text-anchor", "middle").attr("font-size", String.valueOf(bubblingFontSize)).attr("fill", bubblingTextColor.toString()).text(sourceBubblingText);
         builder.child("use").attr("xlink:href", "#bubbling").attr("fill", bubblingColor.toString()).attr("x", String.valueOf(targetBubblingOffsetX)).attr("y", String.valueOf(bubblingOffsetY)).attr("width", String.valueOf(bubblingWidth)).attr("height", String.valueOf(bubblingHeight));
-        builder.child("text").attr("x", String.valueOf(targetBubblingTextOffsetX)).attr("y", String.valueOf(bubblingTextOffsetY)).attr("text-anchor", "middle").attr("font-size", String.valueOf(bubblingFontSize)).attr("fill", bubblingTextColor.toString()).text("target");
+        builder.child("text").attr("x", String.valueOf(targetBubblingTextOffsetX)).attr("y", String.valueOf(bubblingTextOffsetY)).attr("text-anchor", "middle").attr("font-size", String.valueOf(bubblingFontSize)).attr("fill", bubblingTextColor.toString()).text(targetBubblingText);
         builder.child("rect").attr("x", String.valueOf(symbolContainerOffsetX)).attr("y", String.valueOf(symbolContainerOffsetY)).attr("width", String.valueOf(symbolContainerWidth)).attr("height", String.valueOf(symbolHeight)).attr("fill", backgroundColor.toString());
         builder.child("use").attr("xlink:href", "all-material-design-symbols.svg#" + MaterialDesignSymbol.random().getId()).attr("fill", symbolColor.toString()).attr("x", String.valueOf(symbolOffsetX)).attr("y", String.valueOf(symbolOffsetY)).attr("width", String.valueOf(symbolWidth)).attr("height", String.valueOf(symbolHeight));
         builder.child("text").attr("x", String.valueOf(textOffsetX)).attr("y", String.valueOf(textOffsetY)).attr("font-size", String.valueOf(textFontSize)).attr("fill", textColor.toString()).text(activity.getEffect());
+        builder.child("text").attr("x", String.valueOf(subscriptTextOffsetX)).attr("y", String.valueOf(subscriptTextOffsetY)).attr("font-size", String.valueOf(subscriptTextFontSize)).attr("fill", textColor.toString()).text(subscriptText);
     }
 
     public static class TimelinesLayoutStep {
