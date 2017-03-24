@@ -46,7 +46,14 @@ public class ActivitySearchSpace {
         return graphDb;
     }
 
+    /**
+     * 仅返回完全包含在指定时间戳范围内的活动, 不返回半个, 边界活动容易查询丢失, 请加大查询范围
+     * 
+     * @param timestampRange
+     * @return
+     */
     public List<Activity> search(TimestampRange timestampRange) {
+        // TODO 防止漏查边界活动, 考虑返回半个的情况
         List<Activity> activities = new ArrayList<>();
         try (Transaction tx = graphDb.beginTx()) {
             ResourceIterator<Node> iterator = graphDb.findNodes(label_activity);
