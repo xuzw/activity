@@ -42,4 +42,8 @@ public class TimestampRange {
     public long getEndTimestamp() {
         return endTimestamp;
     }
+
+    public long getDur() {
+        return endTimestamp - beginTimestamp;
+    }
 }

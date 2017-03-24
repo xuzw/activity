@@ -53,7 +53,8 @@ public class ActivitySearchSpace {
             while (iterator.hasNext()) {
                 Node node = iterator.next();
                 long timestamp = (long) node.getProperty("timestamp", 0);
-                if (timestamp < timestampRange.getBeginTimestamp() || timestamp > timestampRange.getEndTimestamp()) {
+                long timestampEnd = timestamp + (long) node.getProperty("dur", 0);
+                if (timestamp < timestampRange.getBeginTimestamp() || timestampEnd > timestampRange.getEndTimestamp()) {
                     continue;
                 }
                 ActivityBuilder builder = new ActivityBuilder();
