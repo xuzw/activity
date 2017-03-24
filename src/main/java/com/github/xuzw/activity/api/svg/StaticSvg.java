@@ -150,7 +150,7 @@ public class StaticSvg {
         int sourceBubblingTextOffsetX = sourceBubblingOffsetX + bubblingWidth / 2;
         int targetBubblingTextOffsetX = targetBubblingOffsetX + bubblingWidth / 2;
         int bubblingTextOffsetY = bubblingOffsetY + bubblingHeight / 2;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
         String subscriptText = String.format("耗时%s %s", new DurationFormat(activity.getDur()).getString(), dateFormat.format(activity.getTimestamp()));
         String sourceBubblingText = activity.getSources().isEmpty() ? "unknow" : activity.getSources().get(0);
         String targetBubblingText = StringUtils.isBlank(activity.getTarget()) ? "unknow" : activity.getTarget();
