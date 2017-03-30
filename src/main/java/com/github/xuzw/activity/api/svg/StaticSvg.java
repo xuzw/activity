@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.xuzw.activity.api.TimestampRange;
+import com.github.xuzw.activity.api.utils.DurationFormat;
 import com.github.xuzw.activity.api.utils.xml.TagBuilder;
 import com.github.xuzw.activity.api.utils.xml.XML;
 import com.github.xuzw.activity.model.Activity;

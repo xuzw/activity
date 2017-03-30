@@ -60,6 +60,11 @@ public class ActivityBuilder {
         return this;
     }
 
+    public ActivityBuilder sources(List<String> sources) {
+        this.sources.addAll(sources);
+        return this;
+    }
+
     public ActivityBuilder locale(String locale) {
         obj.setLocale(locale);
         return this;
