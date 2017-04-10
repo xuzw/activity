@@ -76,6 +76,10 @@ public class Color {
         return new Color(new Random().nextInt(max + 1), new Random().nextInt(max + 1), new Random().nextInt(max + 1));
     }
 
+    public String toHexString() {
+        return "#" + Integer.toHexString(r) + Integer.toHexString(g) + Integer.toHexString(b);
+    }
+
     @Override
     public String toString() {
         return String.format(format, r, g, b);
